@@ -26,8 +26,9 @@ def read_product():
 
 @app.route("/create", methods=['POST'])
 def create_product():
-    print(json.loads(request.data)["name"])
-    product ={"name":json.loads(request.data)["name"]}
+    req = json.loads(request.data)
+   
+    product ={"name":req["name"], "desc":req["desc"], "price": req["price"]}
     dbResponse = client["pythonapi"]["products"].insert_one(product)
     for attr in dir(dbResponse):
         print(attr)
@@ -40,7 +41,8 @@ def create_product():
 
 @app.route("/update/<id>",methods=['PATCH'])
 def Update(id):
-    informations =  {"name":json.loads(request.data)["name"]}
+    req = json.loads(request.data)
+    informations =  {"name":req["name"], "desc":req["desc"], "price": req["price"]}
     dbResponse =  client["pythonapi"]["products"].update_one({ '_id': ObjectId(id) }, {'$set': informations})
     for attr in dir(dbResponse):
         print(f"******{attr}********")

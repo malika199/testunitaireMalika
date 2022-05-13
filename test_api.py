@@ -1,3 +1,4 @@
+from itertools import product
 import unittest
 import requests
 
@@ -9,6 +10,8 @@ class TestUser(unittest.TestCase):
     def test_read(self):
         response = requests.get(url=api_url)
         self.assertEqual(response.status_code, 200)
+        product = response.json()
+        self.assertGreater(len(product), 0)
     
     def test_create(self):
         Create = requests.post("http://127.0.0.1:5000/create", json={"name":"coca cola","desc":"boisson gazeuz", "price":23}).status_code
